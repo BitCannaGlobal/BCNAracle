@@ -160,7 +160,7 @@ def fiat_price(bcna_price):
         with open(PATH + JSON_FIAT_INPUT_FILE, 'r') as json_data:
             info = json.load(json_data)
     except:
-        open_error = 'An error occurred opening the file ' +  JSON_FIAT_INPUT_FILE
+        open_error = 'An error occurred opening the file ' +  PATH + JSON_FIAT_INPUT_FILE
         log_this(open_error)
 
         calculated_prices = 0
@@ -188,13 +188,18 @@ def read_last_saved_price():
         with open(PATH + JSON_FIAT_OUTPUT_BCNA_FILE, 'r') as json_data:
             info = json.load(json_data)
     except:
-        open_error = 'An error occurred opening the file ' +  JSON_FIAT_INPUT_FILE
+        open_error = 'An error occurred opening the file ' +  PATH + JSON_FIAT_INPUT_FILE
         log_this(open_error)
         # we can try to get the data from CoinMarketCap
         read_price = getCMC(0.016)
     else:
-        read_price = info["bitcanna"]["usd"]
-
+        if "bitcanna.usd" in info:
+            read_price = info["bitcanna"]["usd"]
+        else:
+            error_msg = 'Error getting the price from file ' +  PATH + JSON_FIAT_INPUT_FILE
+            print(error_msg)
+            log_this(error_msg)
+            read_price = getCMC(0.016)
     return read_price
 
 def main(price):

@@ -32,3 +32,85 @@ Example:
 
 ![](https://i.imgur.com/DkPcfwk.jpg)
 `IMAGE 2: In check 2944 Osmosis is not disposable (connection error) and it's value is replaced temporally by the LAST AVERAGE. In check 2945 connection is recovered`
+## Install and run
+Pre-requisites:  python 3.10 
+Install dependecies: numpy termcolor requests
+
+### 1. Clone or download this repo.
+```
+cd ~
+git clone https://github.com/BitCannaGlobal/BCNAracle.git
+cd BCNAracle
+pip3 install numpy termcolor requests #install package dependencies
+```
+
+### 2. Set-up the config file.
+You should edit mainly the `PATH`, `APILAYER_APIKEY` & `X_CMC_PRO_API_KEY`  vars:
+```
+nano bcnaracle_config.py
+```
+
+### 3. Run the `bcnaracle_get_fiat.py` script first to generate the `fiat.json` file
+If you have set the `APILAYER_APIKEY` then start the FIAT retrieving with: 
+``` 
+python3 bcnaracle_get_fiat.py
+```
+### 4. Run the `bcnaracle.py` script then to generate the `bcnaracle.json` file
+If you have set the `X_CMC_PRO_API_KEY` then start the FIAT retrieving with: 
+``` 
+python3 bcnaracle.py
+```
+### 5. Create service files
+Service creation With all configurations ready you can set up systemd to run the node daemon with auto-restart. 
+
+#### Setup `bcnaracle_get_fiat` systemd service (copy and paste all to create the file service changing the path of the files):
+```
+ cd $HOME
+ echo "[Unit]
+ Description=bcnaracle_get_fiat Script
+ After=network-online.target
+ [Service]
+ User=${USER}
+ ExecStart=$(which python3) /home/raul/BCNAracle/bcnaracle_get_fiat.py
+ Restart=always
+ RestartSec=3
+ LimitNOFILE=4096
+ [Install]
+ WantedBy=multi-user.target
+ " >bcnaracle_get_fiat.service
+```
+Enable and activate the `bcnaracle_get_fiat` service.
+```
+sudo mv bcnaracle_get_fiat.service /lib/systemd/system/
+sudo systemctl enable bcnaracle_get_fiat.service && sudo systemctl start bcnaracle_get_fiat.service
+```
+Check the logs to see if everything is working correct:
+```
+sudo journalctl -fu bcnaracle_get_fiat -o cat
+```
+
+#### Setup `bcnaracle` systemd service (copy and paste all to create the file service changing the path of the files):
+```
+ cd $HOME
+ echo "[Unit]
+ Description=bcnaracle Script
+ After=network-online.target
+ [Service]
+ User=${USER}
+ ExecStart=$(which python3) /home/raul/BCNAracle/bcnaracle.py
+ Restart=always
+ RestartSec=3
+ LimitNOFILE=4096
+ [Install]
+ WantedBy=multi-user.target
+ " >bcnaracle.service
+```
+Enable and activate the `bcnaracle` service.
+```
+sudo mv bcnaracle.service /lib/systemd/system/
+sudo systemctl enable bcnaracle.service && sudo systemctl start bcnaracle.service
+```
+Check the logs to see if everything is working correct:
+```
+sudo journalctl -fu bcnaracle -o cat
+```

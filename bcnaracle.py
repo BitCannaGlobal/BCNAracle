@@ -37,7 +37,7 @@ def getCMC (last_average): # Function to get the info
             else:
                 print('Error getting the CMC price. Check the JSON response')
                 print(info)
-                log_this(info)
+                log_this(str(info))
                 price = last_average
 
     return price
@@ -68,7 +68,7 @@ def getCG (last_average):
             else:
                 print('Error getting the CoinGecko price. Check the JSON response')
                 print(info)
-                log_this(info)
+                log_this(str(info))
                 price = last_average
 
     return price
@@ -99,7 +99,7 @@ def getOsmo (last_average):
             else:
                 print('Error getting the Osmosis price. Check the JSON response')
                 print(info)
-                log_this(info)
+                log_this(str(info))
                 price = last_average
 
     return price

@@ -27,8 +27,7 @@ def get_price_by_currency(currency):
         with open(folder + file_bcnaracle) as f:
             data = json.load(f)
     except Exception as e:
-        # Esto es solo un ejemplo general. Podrías usar errores más específicos
-        # dependiendo de lo que esperes (por ejemplo, FileNotFoundError).
+        # We can get more specific exceptions (for example, FileNotFoundError) or catch all.
         return jsonify({"error": f"Error reading data: {str(e)}"}), 500
     value = data["bitcanna"].get(currency)
 
@@ -47,6 +46,7 @@ def get_api_all():
 
 @app.route("/api") 
 def get_api():
+    # inject the hmtl file as index/doc page
     f = open(folder + html_doc)
     return f
 

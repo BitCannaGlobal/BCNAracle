@@ -13,10 +13,18 @@ folder = ''
 file_bcnaracle = 'bcnaracle.json'
 file_fiat = 'fiat.json'
 html_doc = 'index.html'
+ohcl_file = 'ohcl.json'
 
 @app.route("/api/fiat")
 def get_api_fiat():
     f = open(folder + file_fiat)
+    data = json.load(f)
+    f.close()
+    return data
+
+@app.route("/api/ohcl")
+def get_api_ohcl():
+    f = open(folder + ohcl_file)
     data = json.load(f)
     f.close()
     return data

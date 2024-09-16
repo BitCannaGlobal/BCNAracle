@@ -4,3 +4,4 @@ bcnaracle_config.py
 bcnaracle.csv
 log_bcnaracle.csv
 __pycache__/*
+API_server/ohcl.json

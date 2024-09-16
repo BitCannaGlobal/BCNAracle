@@ -6,7 +6,7 @@ from requests import Request, Session
 import json
 
 ## Get the config variables from bcnaracle_config.py
-from bcnaracle_config import UPDATE_INTERVAL_SECONDS, PATH, JSON_FIAT_INPUT_FILE, CSV_OUTPUT_FILE, CSV_LOG_OUTPUT_FILE, JSON_FIAT_OUTPUT_BCNA_FILE, X_CMC_PRO_API_KEY
+from bcnaracle_config import UPDATE_INTERVAL_SECONDS, PATH, JSON_FIAT_INPUT_FILE, CSV_OUTPUT_FILE, CSV_LOG_OUTPUT_FILE, JSON_FIAT_OUTPUT_BCNA_FILE, X_CMC_PRO_API_KEY, OHCL_URL, OHCL_FILE
 
 ## Get data from Price Feeds
 def getCMC (last_average): # Function to get the info
@@ -207,12 +207,34 @@ def read_last_saved_price():
             read_price = getCMC(0.016)
     return read_price
 
+def process_ohcl():
+    # Make the GET 
+    headers = {
+        'Accepts': 'application/json'
+    }
+    session = Session()
+    session.headers.update(headers)
+    response = session.get(OHCL_URL)
+
+    if response.status_code == 200:
+        # If ok 
+        datos_ohlc = response.json()
+
+        # Store in a 4 char formated JSON file
+        with open(PATH + OHCL_FILE, 'w') as archivo_json:
+            json.dump(datos_ohlc, archivo_json, indent=4)
+        print(f"OHCL data saved at: {PATH + OHCL_FILE}")
+    else:
+        error = f"Error fetching OHCL data from CoinGecko: {response.status_code}" 
+        log_this(error)
+        print(error)
+
 def main(price):
     while True:
         price = oracleit(getOsmo(price), getCMC(price), getCG(price)) #check that functions returns ! zero
         print (f"Last AVERAGE price: {price}")
         write_fiat_json_to_file(fiat_price(price))
-
+        process_ohcl()
         sleep(UPDATE_INTERVAL_SECONDS)
 
 if __name__ == "__main__":

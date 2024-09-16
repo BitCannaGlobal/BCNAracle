@@ -1,3 +1,6 @@
 API_server/fiat.json
 API_server/bcnaracle.json
 bcnaracle_config.py
+bcnaracle.csv
+log_bcnaracle.csv
+__pycache__/*

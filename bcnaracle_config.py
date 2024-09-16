@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from CMC_key import X_CMC_PRO_API_KEY
 # Common config
 PATH = './' # Production: '/var/www/bcnaracle/'
 
@@ -9,8 +10,8 @@ JSON_FIAT_INPUT_FILE = 'fiat.json'
 CSV_OUTPUT_FILE = 'bcnaracle.csv'
 CSV_LOG_OUTPUT_FILE = 'log_bcnaracle.csv'
 JSON_FIAT_OUTPUT_BCNA_FILE = 'bcnaracle.json'
-
-X_CMC_PRO_API_KEY = 'get at CMC'
+OHCL_FILE = 'ohcl.json'
+OHCL_URL = 'https://api.coingecko.com/api/v3/coins/bitcanna/ohlc?days=7&vs_currency=usd'
 
 # BCNAracle_get_fiat.py config
 FIAT_UPDATE_INTERVAL_SECONDS = 28800 # 8 hours

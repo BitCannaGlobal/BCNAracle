@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from CMC_key import X_CMC_PRO_API_KEY
+from API_key import X_CMC_PRO_API_KEY, APILAYER_APIKEY
+
 # Common config
 PATH = './' # Production: '/var/www/bcnaracle/'
 
@@ -18,4 +19,3 @@ FIAT_UPDATE_INTERVAL_SECONDS = 28800 # 8 hours
 JSON_OUTPUT_FILE_FIAT = 'fiat.json' # should be the same than JSON_FIAT_INPUT_FILE
 LOG_FILE = 'log_fiat_conversion_bcnaracle.csv'
 
-APILAYER_APIKEY = 'get at apilayer.com'

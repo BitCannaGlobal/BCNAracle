@@ -1,0 +1,2 @@
+X_CMC_PRO_API_KEY = 'get_your_CMC_API_Key'
+APILAYER_APIKEY = 'get_your_APILAYER_Key'

@@ -1,1 +1,0 @@
-X_CMC_PRO_API_KEY = 'get_your_CMC_API_Key'
